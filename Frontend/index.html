@@ -48,6 +48,11 @@
         .fade-in {
             animation: fadeIn 0.5s ease;
         }
+
+        /** Prevent user 'text selection' with cursor on sliders - fixes disabled bug */
+        :has(> input[type="range"]) {
+            user-select: none;
+        }
     </style>
 </head>
 <body class="min-h-screen flex justify-center items-center p-5">
@@ -89,19 +94,23 @@
             Predict Species
         </button>
 
-        <div id="result-container" class="hidden mt-8 p-5 rounded-xl bg-green-50 border-2 border-green-500 fade-in">
-            <h2 class="text-green-800 text-xl mb-2.5">Prediction Result:</h2>
-            <p id="result-text" class="text-green-900 text-2xl font-bold text-center"></p>
+        <div id="result-container" class="hidden mt-8 p-2 rounded-xl bg-green-50 border-2 border-green-500 fade-in">
+            <h2 class="text-green-800 text-xl mb-1">Prediction Result:
+                <span id="result-text" class="text-green-900 text-2xl font-bold text-center"></span>
+            </h2>
         </div>
 
-        <div id="error-container" class="hidden mt-8 p-5 rounded-xl bg-red-50 border-2 border-red-500 fade-in">
+        <div id="error-container" class="hidden mt-5 p-2 rounded-xl bg-red-50 border-2 border-red-500 fade-in">
             <p id="error-text" class="text-red-800 font-semibold text-center"></p>
         </div>
 
-        <div class="mt-10 pt-8 border-t border-gray-200">
-            <h2 class="text-gray-800 text-2xl font-bold mb-3 text-center">Training Data Visualization</h2>
-            <p class="text-gray-600 text-sm text-center mb-5">This graph shows the relationship between petal length and width for different iris species in the training dataset.</p>
-            <img src="images/iris-petal-graph.png" alt="Iris Petal Length vs Width Training Data" class="w-full h-auto rounded-lg shadow-md">
+        <div class="mt-8 pt-6 border-t border-gray-200">
+            <h2 class="text-gray-800 text-2xl font-bold mb-3 text-center">Training Data Petal Length & Width</h2>
+            <img src="images/iris-petal-graph.png" alt="Iris Petal Length vs Width Training Data" class="w-full h-auto rounded-lg">
+            <p class="text-gray-600 text-sm mt-3 text-center">
+                Image source: <a href="https://bioinformatics.ccr.cancer.gov/docs/rintro/Exercises/ggplot2_part2/" target="_blank" class="text-indigo-600 hover:text-indigo-800 underline">CCR Bioinformatics</a><br>
+                Dataset: <a href="https://archive.ics.uci.edu/dataset/53/iris" target="_blank" class="text-indigo-600 hover:text-indigo-800 underline">UCI Iris Dataset</a>
+            </p>
         </div>
     </div>
 
