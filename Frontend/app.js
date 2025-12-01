@@ -59,7 +59,7 @@ submitBtn.addEventListener('click', async () => {
     submitBtn.textContent = 'Predicting...';
 
     try {
-        const response = await fetch('http://127.0.0.1:5000/predict-iris', {
+        const response = await fetch('/api/predict-iris', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ houseSubmitBtn.addEventListener('click', async () => {
     houseSubmitBtn.textContent = 'Predicting...';
 
     try {
-        const response = await fetch('http://127.0.0.1:5000/predict-house', {
+        const response = await fetch('/api/predict-house', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
