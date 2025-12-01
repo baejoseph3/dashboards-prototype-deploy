@@ -146,3 +146,161 @@ houseSubmitBtn.addEventListener('click', async () => {
         houseSubmitBtn.textContent = 'Predict Price';
     }
 });
+
+// Initialize Iris Petal Scatterplot with ECharts
+async function initIrisChart() {
+    try {
+        // Fetch iris dataset
+        const response = await fetch('http://127.0.0.1:5000/iris-data');
+        const irisData = await response.json();
+
+        // Group data by species
+        const setosaData = [];
+        const versicolorData = [];
+        const virginicaData = [];
+
+        irisData.forEach(item => {
+            const point = [parseFloat(item.petal_length), parseFloat(item.petal_width)];
+            if (item.species === 'setosa') {
+                setosaData.push(point);
+            } else if (item.species === 'versicolor') {
+                versicolorData.push(point);
+            } else if (item.species === 'virginica') {
+                virginicaData.push(point);
+            }
+        });
+
+        // Initialize ECharts
+        const chartDom = document.getElementById('iris-chart');
+        const myChart = echarts.init(chartDom);
+
+        const option = {
+            title: {
+                text: 'Iris Dataset - Petal Measurements',
+                left: 'center',
+                textStyle: {
+                    fontSize: 16,
+                    color: '#374151'
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function(params) {
+                    return `${params.seriesName}<br/>Petal Length: ${params.value[0]} cm<br/>Petal Width: ${params.value[1]} cm`;
+                }
+            },
+            legend: {
+                data: ['Setosa', 'Versicolor', 'Virginica'],
+                bottom: 10,
+                textStyle: {
+                    color: '#374151'
+                }
+            },
+            grid: {
+                left: '10%',
+                right: '10%',
+                bottom: '15%',
+                top: '15%',
+                containLabel: true
+            },
+            xAxis: {
+                name: 'Petal Length (cm)',
+                nameLocation: 'middle',
+                nameGap: 30,
+                nameTextStyle: {
+                    fontSize: 12,
+                    color: '#374151'
+                },
+                type: 'value',
+                scale: true,
+                axisLabel: {
+                    color: '#6B7280'
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: '#E5E7EB'
+                    }
+                }
+            },
+            yAxis: {
+                name: 'Petal Width (cm)',
+                nameLocation: 'middle',
+                nameGap: 30,
+                nameTextStyle: {
+                    fontSize: 12,
+                    color: '#374151'
+                },
+                type: 'value',
+                scale: true,
+                axisLabel: {
+                    color: '#6B7280'
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: '#E5E7EB'
+                    }
+                }
+            },
+            series: [
+                {
+                    name: 'Setosa',
+                    data: setosaData,
+                    type: 'scatter',
+                    symbolSize: 8,
+                    itemStyle: {
+                        color: '#EF4444'
+                    },
+                    emphasis: {
+                        itemStyle: {
+                            borderColor: '#DC2626',
+                            borderWidth: 2
+                        }
+                    }
+                },
+                {
+                    name: 'Versicolor',
+                    data: versicolorData,
+                    type: 'scatter',
+                    symbolSize: 8,
+                    itemStyle: {
+                        color: '#10B981'
+                    },
+                    emphasis: {
+                        itemStyle: {
+                            borderColor: '#059669',
+                            borderWidth: 2
+                        }
+                    }
+                },
+                {
+                    name: 'Virginica',
+                    data: virginicaData,
+                    type: 'scatter',
+                    symbolSize: 8,
+                    itemStyle: {
+                        color: '#3B82F6'
+                    },
+                    emphasis: {
+                        itemStyle: {
+                            borderColor: '#2563EB',
+                            borderWidth: 2
+                        }
+                    }
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+
+        // Make chart responsive
+        window.addEventListener('resize', function() {
+            myChart.resize();
+        });
+
+    } catch (error) {
+        console.error('Error loading iris chart:', error);
+    }
+}
+
+// Initialize the chart when the page loads
+initIrisChart();
