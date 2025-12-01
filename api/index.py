@@ -7,14 +7,19 @@ import pandas as pd # Example for data handling
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+MODEL_PATH = os.path.join(BASE_DIR, "pickles", "iris_log_reg.pkl")
+IRIS_JSON_PATH = os.path.join(BASE_DIR, "datasets", "iris.json")
+
+with open(MODEL_PATH, "rb") as f:
+    iris_model = pickle.load(f)
+
+iris_species = ["Setosa", "Versicolor", "Virginica"]
+
+@app.route("/", methods=["GET"])
 def hello_world():
     return "<p>Hello, World!</p>"
-
-# Iris Section
-# Load the trained model
-iris_model = pickle.load(open('pickles/iris_log_reg.pkl', 'rb'))
-iris_species = ["Setosa", "Versicolor", "Virginica"]
 
 # API call to handle Iris model requests
 @app.route('/predict-iris', methods=['POST'])
@@ -40,8 +45,3 @@ def get_iris_data():
 @app.route('/predict-house', methods=['POST'])
 def predict_house():
     return jsonify({'prediction': 'TEST!'})
-
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
