@@ -37,9 +37,9 @@ def predict_iris():
 # API call to fetch Iris dataset in JSON format
 @app.route('/iris-data', methods=['GET'])
 def get_iris_data():
-    with open('datasets/iris.json') as iris_data:
+    with open(IRIS_JSON_PATH, "r") as iris_data:
         iris_json = json.load(iris_data)
-        return iris_json
+        return jsonify(iris_json)
 
 # House Price Section
 # API call to handle house price prediction requests
