@@ -157,7 +157,7 @@ let irisChart = null;
 async function initIrisChart() {
     try {
         // Fetch iris dataset
-        const response = await fetch('http://127.0.0.1:5000/iris-data');
+        const response = await fetch('/api/iris-data');
         const irisData = await response.json();
 
         // Group data by species
